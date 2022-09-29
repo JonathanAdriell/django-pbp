@@ -1,45 +1,71 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Internal CSS</title>
+        <style>
+            .main {
+                text-align:center; 
+            }
+            .title {
+                color:#009900;
+                font-size:50px;
+                font-weight:bold;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
 
-{% block meta %}
-<title>Login</title>
-{% endblock meta %}
+            th, td {
+                padding: 10px;
+            }
 
-{% block content %}
+            table {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+                align-items: center;
+            }
 
-<div class = "login">
-
-    <h1>Login</h1>
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
+        </style>
+    </head>
+    <body>
+        <div class = "main">
+            <div class ="title">Login</div>
+              
+            <div>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>Username: </td>
+                            <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                        </tr>
+                                
+                        <tr>
+                            <td>Password: </td>
+                            <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                        </tr>
+            
+                        <tr>
+                            <td></td>
+                            <td><input class="btn login_btn" type="submit" value="Login"></td>
+                        </tr>
+                    </table>
+                </form>
+            
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}     
                     
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+                Belum mempunyai akun? <a href="{% url 'wishlist:register' %}">Buat Akun</a>
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
-    </form>
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}     
-        
-    Belum mempunyai akun? <a href="{% url 'wishlist:register' %}">Buat Akun</a>
-
-</div>
-
-{% endblock content %}
+            </div>
+        </div>
+    </body>
+</html>
