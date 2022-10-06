@@ -1,6 +1,8 @@
+from json import JSONDecodeError
+import re
 from django.shortcuts import render
 from wishlist.models import BarangWishlist
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -71,3 +73,23 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('wishlist:login'))
     response.delete_cookie('last_login')
     return response
+
+def wishlist_ajax(request):
+    context = {}
+    return render(request, "wishlist_ajax.html", context)
+
+def receive_data_json(request):
+    if request.method == 'POST':
+        nama_barang = request.POST.get('nama_barang')
+        harga_barang = request.POST.get('harga_barang')
+        deskripsi = request.POST.get('deskripsi')
+
+
+        validate = BarangWishlist(nama_barang, harga_barang, deskripsi)
+        validate.save()
+
+        return JsonResponse({
+            "nama_barang": nama_barang,
+            "harga_barang": harga_barang,
+            "deskripsi": deskripsi,
+        })
